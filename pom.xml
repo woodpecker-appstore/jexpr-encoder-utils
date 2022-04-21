@@ -6,7 +6,7 @@
 
     <groupId>me.gv7.woodpecker</groupId>
     <artifactId>jexpr-encoder-utils</artifactId>
-    <version>0.1.0</version>
+    <version>0.2.0</version>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
@@ -29,6 +29,12 @@
                     <filters>
                         <filter>
                             <artifact>me.gv7.woodpecker:woodpecker-sdk</artifact>
+                            <excludes>
+                                <exclude>**/*.*</exclude>
+                            </excludes>
+                        </filter>
+                        <filter>
+                            <artifact>me.gv7.woodpecker:woodpecker-bcel</artifact>
                             <excludes>
                                 <exclude>**/*.*</exclude>
                             </excludes>
@@ -59,17 +65,22 @@
         </plugins>
     </build>
     <dependencies>
+
         <dependency>
             <groupId>me.gv7.woodpecker</groupId>
-            <artifactId>woodpecker-requests</artifactId>
-            <version>0.2.0</version>
-            <scope>compile</scope>
+            <artifactId>woodpecker-tools</artifactId>
+            <version>0.1.0.beta1</version>
         </dependency>
         <dependency>
             <groupId>me.gv7.woodpecker</groupId>
             <artifactId>woodpecker-sdk</artifactId>
             <version>0.3.0</version>
             <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>me.gv7.woodpecker</groupId>
+            <artifactId>woodpecker-bcel</artifactId>
+            <version>0.1.0</version>
         </dependency>
     </dependencies>
 </project>

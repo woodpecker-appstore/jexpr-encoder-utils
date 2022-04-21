@@ -1,8 +1,13 @@
 package me.gv7.woodpecker.plugin;
 
 import me.gv7.woodpecker.plugin.exprs.*;
+import me.gv7.woodpecker.plugin.utils.Utils;
 import me.gv7.woodpecker.plugin.utils.WPSettings;
 
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -74,6 +79,28 @@ public class JExprEncoderPlugin implements IHelperPlugin {
             args4.setRequired(true);
             args.add(args4);
 
+            IArg args5 = pluginHelper.createArg();
+            args5.setName("class_file");
+            args5.setDefaultValue("/path/to/memshell.class");
+            args5.setDescription("内存马文件路径");
+            args5.setRequired(true);
+            args.add(args5);
+
+            IArg args6 = pluginHelper.createArg();
+            args6.setName("encoder");
+            args6.setType(IArg.ARG_TYPE_ENUM);
+            args6.setDefaultValue("none");
+            args6.setEnumValue(new ArrayList<String>() {{
+                add("");
+                add("none");
+                add("url");
+                add("json");
+                add("unicode");
+            }});
+            args6.setDescription("是否对结果进行编码");
+            args6.setRequired(true);
+            args.add(args6);
+
             argsUsageBinder.setArgsList(args);
             return argsUsageBinder;
         }
@@ -81,41 +108,51 @@ public class JExprEncoderPlugin implements IHelperPlugin {
         @Override
         public void doHelp(Map<String, Object> map, IResultOutput output) throws Throwable {
             WPSettings settings = new WPSettings(map);
+            String encoder = settings.getString("encoder", "none");
 
             if (settings.getString("command") != null) {
                 String[] exec = _expr.genExec(settings.getString("command"));
                 String[] execWithEcho = _expr.genExecWithEcho(settings.getString("command"));
                 output.successPrintln("命令执行：");
-                printResult(exec, output);
+                printResult(exec, output, encoder);
                 output.successPrintln("命令执行(回显输出)：");
-                printResult(execWithEcho, output);
+                printResult(execWithEcho, output, encoder);
             }
 
             if (settings.getString("dnslog_domain") != null) {
                 String[] results = _expr.genDnslog(settings.getString("dnslog_domain"));
                 output.successPrintln("DnsLog：");
-                printResult(results, output);
+                printResult(results, output, encoder);
             }
 
             if (settings.getString("httplog_url") != null) {
                 String[] results = _expr.genHttplog(settings.getString("httplog_url"));
                 output.successPrintln("HttpLog：");
-                printResult(results, output);
+                printResult(results, output, encoder);
             }
 
             if (settings.getString("sleep") != null) {
                 String[] results = _expr.genSleep(settings.getInteger("sleep", 1));
                 output.successPrintln("Sleep：");
-                printResult(results, output);
+                printResult(results, output, encoder);
             }
+
+            if (settings.getFileContent("class_file") != null) {
+                String[] results = _expr.genMemShell(settings.getFileContent("class_file"));
+                output.successPrintln("内存马注入：");
+                printResult(results, output, encoder);
+            } else {
+                output.warningPrintln("内存马文件不存在，跳过生成。");
+            }
+            output.rawPrintln("");
         }
 
-        private void printResult(String[] results, IResultOutput output) {
+        private void printResult(String[] results, IResultOutput output, String encoder) throws Exception {
             if (results != null && results.length > 0) {
                 output.rawPrintln("");
                 for (String result :
                         results) {
-                    output.rawPrintln(result);
+                    output.rawPrintln(encoder(result, encoder));
                     output.rawPrintln("");
                 }
             } else {
@@ -123,5 +160,19 @@ public class JExprEncoderPlugin implements IHelperPlugin {
                 output.rawPrintln("");
             }
         }
+
+        private String encoder(String text, String encoder) throws Exception {
+            switch (encoder) {
+                case "json":
+                    return Utils.escape(text, "\"").replace("\r", "\\r").replace("\n", "\\n");
+                case "url":
+                    return URLEncoder.encode(text, "utf-8");
+                case "unicode":
+                    return Utils.escapeJavaStyleString(text);
+                default:
+                    return text;
+            }
+        }
+
     }
 }

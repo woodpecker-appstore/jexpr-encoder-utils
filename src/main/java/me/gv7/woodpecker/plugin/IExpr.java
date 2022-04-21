@@ -12,4 +12,6 @@ public interface IExpr {
     String[] genExec(String command);
 
     String[] genExecWithEcho(String command);
+
+    String[] genMemShell(byte[] memShellClass);
 }

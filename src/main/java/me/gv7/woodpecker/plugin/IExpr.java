@@ -1,6 +1,8 @@
 package me.gv7.woodpecker.plugin;
 
 public interface IExpr {
+    void setEncoder(String encoder);
+
     String getName();
 
     String[] genDnslog(String domain);

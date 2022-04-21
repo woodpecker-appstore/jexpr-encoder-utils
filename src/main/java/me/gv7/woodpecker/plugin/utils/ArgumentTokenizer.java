@@ -54,7 +54,7 @@ public abstract class ArgumentTokenizer {
     private static final int NORMAL_TOKEN_STATE = 1;
     private static final int SINGLE_QUOTE_STATE = 2;
     private static final int DOUBLE_QUOTE_STATE = 3;
-
+git
     public static String getTokenizedString(String command, String splitChar) {
         List<String> commandArgs = ArgumentTokenizer.tokenize(command);
         StringBuilder splitCommand = new StringBuilder();

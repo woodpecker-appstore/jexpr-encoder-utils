@@ -5,6 +5,7 @@ import java.io.StringWriter;
 import java.io.Writer;
 import java.lang.reflect.Method;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Locale;
@@ -23,6 +24,23 @@ public class Utils {
         method.setAccessible(true);
         Class clazz = (Class) method.invoke(new javax.management.loading.MLet(new URL[0], Thread.currentThread().getContextClassLoader()), classFile, 0, classFile.length);
         return clazz.getName();
+    }
+
+    public static String encoder(String text, String encoder) {
+        try {
+            switch (encoder) {
+                case "json":
+                    return Utils.escape(text, "\"").replace("\r", "\\r").replace("\n", "\\n");
+                case "url":
+                    return URLEncoder.encode(text, "utf-8");
+                case "unicode":
+                    return Utils.escapeJavaStyleString(text);
+                default:
+                    return text;
+            }
+        } catch (Exception ex) {
+            return text;
+        }
     }
 
     public static String escapeJavaStyleString(String str) throws IOException {

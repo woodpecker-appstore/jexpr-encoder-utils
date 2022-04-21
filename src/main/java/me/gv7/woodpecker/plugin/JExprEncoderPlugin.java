@@ -108,51 +108,50 @@ public class JExprEncoderPlugin implements IHelperPlugin {
         @Override
         public void doHelp(Map<String, Object> map, IResultOutput output) throws Throwable {
             WPSettings settings = new WPSettings(map);
-            String encoder = settings.getString("encoder", "none");
-
+            _expr.setEncoder(settings.getString("encoder", "none"));
             if (settings.getString("command") != null) {
                 String[] exec = _expr.genExec(settings.getString("command"));
                 String[] execWithEcho = _expr.genExecWithEcho(settings.getString("command"));
                 output.successPrintln("命令执行：");
-                printResult(exec, output, encoder);
+                printResult(exec, output);
                 output.successPrintln("命令执行(回显输出)：");
-                printResult(execWithEcho, output, encoder);
+                printResult(execWithEcho, output);
             }
 
             if (settings.getString("dnslog_domain") != null) {
                 String[] results = _expr.genDnslog(settings.getString("dnslog_domain"));
                 output.successPrintln("DnsLog：");
-                printResult(results, output, encoder);
+                printResult(results, output);
             }
 
             if (settings.getString("httplog_url") != null) {
                 String[] results = _expr.genHttplog(settings.getString("httplog_url"));
                 output.successPrintln("HttpLog：");
-                printResult(results, output, encoder);
+                printResult(results, output);
             }
 
             if (settings.getString("sleep") != null) {
                 String[] results = _expr.genSleep(settings.getInteger("sleep", 1));
                 output.successPrintln("Sleep：");
-                printResult(results, output, encoder);
+                printResult(results, output);
             }
 
             if (settings.getFileContent("class_file") != null) {
                 String[] results = _expr.genMemShell(settings.getFileContent("class_file"));
                 output.successPrintln("内存马注入：");
-                printResult(results, output, encoder);
+                printResult(results, output);
             } else {
                 output.warningPrintln("内存马文件不存在，跳过生成。");
             }
             output.rawPrintln("");
         }
 
-        private void printResult(String[] results, IResultOutput output, String encoder) throws Exception {
+        private void printResult(String[] results, IResultOutput output) throws Exception {
             if (results != null && results.length > 0) {
                 output.rawPrintln("");
                 for (String result :
                         results) {
-                    output.rawPrintln(encoder(result, encoder));
+                    output.rawPrintln(result);
                     output.rawPrintln("");
                 }
             } else {
@@ -161,18 +160,6 @@ public class JExprEncoderPlugin implements IHelperPlugin {
             }
         }
 
-        private String encoder(String text, String encoder) throws Exception {
-            switch (encoder) {
-                case "json":
-                    return Utils.escape(text, "\"").replace("\r", "\\r").replace("\n", "\\n");
-                case "url":
-                    return URLEncoder.encode(text, "utf-8");
-                case "unicode":
-                    return Utils.escapeJavaStyleString(text);
-                default:
-                    return text;
-            }
-        }
 
     }
 }

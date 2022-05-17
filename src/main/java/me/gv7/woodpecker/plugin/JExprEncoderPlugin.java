@@ -22,7 +22,7 @@ public class JExprEncoderPlugin implements IHelperPlugin {
         this.pluginHelper = helperPluginCallbacks.getPluginHelper();
         helperPluginCallbacks.setHelperPluginAutor("whwlsfb");
         helperPluginCallbacks.setHelperPluginName("JExpr Encoder Utils");
-        helperPluginCallbacks.setHelperPluginVersion("0.2.0");
+        helperPluginCallbacks.setHelperPluginVersion("0.2.1");
         helperPluginCallbacks.setHelperPluginDescription("Java 表达式注入生成器");
         helperPluginCallbacks.registerHelper(new ArrayList<IHelper>() {{
             add(new JExprEncoder(new SpELExpr()));

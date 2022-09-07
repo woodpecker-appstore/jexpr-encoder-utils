@@ -54,7 +54,7 @@ public class SpELExpr implements IExpr {
     @Override
     public String[] genExecWithEcho(String command) {
         return new String[]{
-                out("#{new java.util.Scanner(T(java.lang.Runtime).getRuntime().exec('" + command.replace("'", "''") + "').getInputStream()).useDelimiter('/').next()}")
+                out("#{new java.util.Scanner(T(java.lang.Runtime).getRuntime().exec('" + command.replace("'", "''") + "').getInputStream()).useDelimiter('\\A').next()}")
         };
     }
 

@@ -55,7 +55,7 @@ public class ScriptEngineManagerExpr implements IExpr {
     @Override
     public String[] genExecWithEcho(String command) {
         return new String[]{
-                out("new java.util.Scanner(java.lang.Runtime.getRuntime().exec(\"" + escape(command, "\"") + "\").getInputStream()).useDelimiter(\"\\A\").next();")
+                out("new java.util.Scanner(java.lang.Runtime.getRuntime().exec(\"" + escape(command, "\"") + "\").getInputStream()).useDelimiter(\"\\\\A\").next();")
         };
     }
 

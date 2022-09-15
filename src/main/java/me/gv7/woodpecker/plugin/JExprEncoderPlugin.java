@@ -86,6 +86,13 @@ public class JExprEncoderPlugin implements IHelperPlugin {
             args5.setRequired(true);
             args.add(args5);
 
+            IArg args7 = pluginHelper.createArg();
+            args7.setName("jndi_address");
+            args7.setDefaultValue("ldap://test.com");
+            args7.setDescription("JNDI·þÎñµØÖ·");
+            args7.setRequired(true);
+            args.add(args7);
+
             IArg args6 = pluginHelper.createArg();
             args6.setName("encoder");
             args6.setType(IArg.ARG_TYPE_ENUM);
@@ -133,6 +140,12 @@ public class JExprEncoderPlugin implements IHelperPlugin {
             if (settings.getString("sleep") != null) {
                 String[] results = _expr.genSleep(settings.getInteger("sleep", 1));
                 output.successPrintln("Sleep£º");
+                printResult(results, output);
+            }
+
+            if (settings.getString("jndi_address") != null) {
+                String[] results = _expr.genJNDI(settings.getString("jndi_address"));
+                output.successPrintln("JNDI£º");
                 printResult(results, output);
             }
 

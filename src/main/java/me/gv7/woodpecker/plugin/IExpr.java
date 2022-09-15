@@ -16,4 +16,6 @@ public interface IExpr {
     String[] genExecWithEcho(String command);
 
     String[] genMemShell(byte[] memShellClass);
+
+    String[] genJNDI(String jndiAddress);
 }

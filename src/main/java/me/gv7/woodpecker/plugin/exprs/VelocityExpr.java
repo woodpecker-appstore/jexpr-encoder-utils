@@ -77,4 +77,9 @@ public class VelocityExpr implements IExpr {
             };
         }
     }
+
+    @Override
+    public String[] genJNDI(String jndiAddress) {
+        return null;
+    }
 }

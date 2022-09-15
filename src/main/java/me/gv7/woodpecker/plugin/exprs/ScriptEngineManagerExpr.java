@@ -72,4 +72,9 @@ public class ScriptEngineManagerExpr implements IExpr {
             };
         }
     }
+
+    @Override
+    public String[] genJNDI(String jndiAddress) {
+        return null;
+    }
 }

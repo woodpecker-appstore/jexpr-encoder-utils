@@ -18,4 +18,6 @@ public interface IExpr {
     String[] genMemShell(byte[] memShellClass);
 
     String[] genJNDI(String jndiAddress);
+
+    String[] genLoadJar(String url, String className);
 }

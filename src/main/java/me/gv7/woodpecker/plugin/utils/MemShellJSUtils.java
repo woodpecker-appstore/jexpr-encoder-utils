@@ -1,9 +1,6 @@
 package me.gv7.woodpecker.plugin.utils;
 
-import me.gv7.woodpecker.tools.codec.BASE64Encoder;
-
 public class MemShellJSUtils {
-    public static BASE64Encoder base64Encoder = new BASE64Encoder();
 
     public static String getMemShellPayload(byte[] memShell, int mode) throws Exception {
         try {

@@ -1,13 +1,8 @@
 package me.gv7.woodpecker.plugin;
 
 import me.gv7.woodpecker.plugin.exprs.*;
-import me.gv7.woodpecker.plugin.utils.Utils;
 import me.gv7.woodpecker.plugin.utils.WPSettings;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;

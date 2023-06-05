@@ -83,7 +83,7 @@ public class VelocityExpr implements IExpr {
 
     @Override
     public String[] genJNDI(String jndiAddress) {
-        return null;
+        return new String[] {out("#set($x='') $x.class.forName('javax.naming.InitialContext').doLookup(\"" + escape(jndiAddress, "\"") + "\")")};
     }
 
     @Override

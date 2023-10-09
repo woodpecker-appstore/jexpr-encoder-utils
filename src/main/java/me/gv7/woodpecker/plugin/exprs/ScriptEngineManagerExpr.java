@@ -63,14 +63,14 @@ public class ScriptEngineManagerExpr implements IExpr {
     public String[] genMemShell(byte[] memShellClass) {
         try {
             return new String[]{
-                    "[+] JS-Unsafe·½°¸£º==>" + System.lineSeparator() + out(MemShellJSUtils.getMemShellPayload(memShellClass, MemShellClassFactory.UNSAFE)) + System.lineSeparator() + " <==",
-                    "[+] JS-BASE64·½°¸£º==>" + System.lineSeparator() + out(MemShellJSUtils.getMemShellPayload(memShellClass, MemShellClassFactory.BASE64)) + System.lineSeparator() + " <==",
-                    "[+] JS-BigInteger·½°¸£º==>" + System.lineSeparator() + out(MemShellJSUtils.getMemShellPayload(memShellClass, MemShellClassFactory.BIGINTEGER)) + System.lineSeparator() + " <==",
-                    "[+] JS-BCEL·½°¸£º==>" + System.lineSeparator() + out(MemShellJSUtils.getMemShellPayload(memShellClass, MemShellClassFactory.BCEL)) + System.lineSeparator() + " <=="
+                    "[+] JS-Unsafeæ–¹æ¡ˆï¼š==>" + System.lineSeparator() + out(MemShellJSUtils.getMemShellPayload(memShellClass, MemShellClassFactory.UNSAFE)) + System.lineSeparator() + " <==",
+                    "[+] JS-BASE64æ–¹æ¡ˆï¼š==>" + System.lineSeparator() + out(MemShellJSUtils.getMemShellPayload(memShellClass, MemShellClassFactory.BASE64)) + System.lineSeparator() + " <==",
+                    "[+] JS-BigIntegeræ–¹æ¡ˆï¼š==>" + System.lineSeparator() + out(MemShellJSUtils.getMemShellPayload(memShellClass, MemShellClassFactory.BIGINTEGER)) + System.lineSeparator() + " <==",
+                    "[+] JS-BCELæ–¹æ¡ˆï¼š==>" + System.lineSeparator() + out(MemShellJSUtils.getMemShellPayload(memShellClass, MemShellClassFactory.BCEL)) + System.lineSeparator() + " <=="
             };
         } catch (Exception ex) {
             return new String[]{
-                    "classÎÄ¼þÒì³£",
+                    "classæ–‡ä»¶å¼‚å¸¸",
                     Utils.getErrDetail(ex)
             };
         }
